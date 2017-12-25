@@ -1,0 +1,89 @@
+<!-- dish detail-->
+  <div class="container"
+    fxLayout="row"
+    fxLayout.sm="column"
+    fxLayout.xs="column"
+    fxLayoutAlign.gt-md="space-around center"
+    fxLayoutGap="10px" 
+    fxLayoutGap.xs="0">
+
+  <div fxFlex="40" *ngIf="dish">
+    <md-card >
+      <md-card-header>
+        <md-card-title>
+          <h3>{{dish.name | uppercase}}</h3>
+        </md-card-title>
+      </md-card-header>
+      <img md-card-image src={{dish.image}} alt={{dish.name}}>
+      <md-card-content>
+        <p>{{dish.description}}
+        </p>
+      </md-card-content>
+      <md-card-actions>
+        <button md-button [routerLink]="['/dishdetail', prev]"><span class="fa fa-chevron-left fa-lg"></span></button>
+        <button md-button (click)="goBack()">BACK</button>
+        <button md-button>LIKE</button>
+        <button md-button>SHARE</button>
+        <span class="flex-spacer"></span>
+        <button md-button [routerLink]="['/dishdetail', next]"><span class="fa fa-chevron-right fa-lg"></span></button>
+      </md-card-actions>
+    </md-card>
+  </div>
+
+  <div fxFlex="40" *ngIf="dish">
+  <md-card >
+      <md-card-header>
+        <md-card-title>
+          <h3>Comments</h3>
+        </md-card-title>
+      </md-card-header>
+      <md-card-content>
+        <md-grid-list cols="1" rowHeight="200px" *ngFor="let comment of dish.comments">
+      <br>{{comment.comment}}<br>
+      {{comment.rating +"Stars"}}<br>
+      {{"-- " +comment.author +" "}}{{comment.date | date:'MMM dd, y' }}<br>
+    </md-grid-list>
+      </md-card-content>
+     
+    </md-card>
+<br>
+    <form novalidate [formGroup]="commentsForm" (ngSubmit)="onSubmit()">
+    
+<div fxFlex="40" >
+<span>{{commentsForm.value.comment}}<br>
+      {{commentsForm.value.rating }}<br>
+      {{commentsForm.value.author}}<br>
+    </span>
+    <br>
+    <br>
+  <md-input-container class="full-width"
+             dividerColor="{{(formErrors.author) ? 'warn' : 'primary'}}">
+    <input mdInput formControlName="author" placeholder="Name"  required>
+    <md-hint>
+      <span [hidden]="!(formErrors.author)">
+        {{formErrors.author}}</span>
+    </md-hint>
+  </md-input-container>
+  <p>
+    <md-slider thumbLabel tickInterval="1" min="1" max="5" step="1" value="5" formControlName="rating"></md-slider>
+  </p>
+  <p>
+    <md-input-container class="full-width">
+      <textarea mdInput formControlName="comment" placeholder="Your Feedback" rows=3></textarea>
+      <md-hint>
+      <span [hidden]="!(formErrors.comment)">
+        {{formErrors.comment}}</span>
+    </md-hint>
+    </md-input-container>
+  </p>
+  <button type="submit" md-button class="background-primary text-floral-white" [disabled]="commentsForm.invalid">Submit</button>
+    
+  </div>
+</form>
+    
+  </div>
+
+
+  
+
+</div>
